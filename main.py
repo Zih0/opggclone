@@ -6,7 +6,7 @@ from pprint import pprint as pp
 
 app = Flask(__name__)
 
-apikey = 'RGAPI-7d804e48-520f-463e-bdbd-7a6c5189bf1b'
+apikey = 'RGAPI-7aa28785-b55a-470b-9504-6b03b12aa5fb'
 print("api_key\n", apikey)
 
 
@@ -27,7 +27,7 @@ def search():
     "X-Riot-Token": apikey
 }
     res = requests.get(url=url, headers=headers)
-    accountid = res.json()['accountId']
+    account_id = res.json()['accountId']
     encrypted_id = res.json()['id']
     url_league = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{}".format(encrypted_id)
     res_league = requests.get(url=url_league, headers=headers)
@@ -40,19 +40,23 @@ def search():
             league_dict.get('rank'),
             league_dict.get('wins'),
             league_dict.get('losses'),
-            league_dict.get('leagueName'),
-            league_dict.get('leaguePoints')
+            league_dict.get('leaguePoints'),
+            round(100*league_dict.get('wins')/(league_dict.get('losses')+league_dict.get('wins')))
         ]
         return res
 
     results = []
     for league_dict in league_dicts:
         results.append(get_league_info(league_dict))
+
     print(results)
     length = len(results)
 
+
+
+
     url_GameID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}?queue=420".format(
-        accountid)  # {encryptedAccountId} = account_ID
+        account_id)  # {encryptedAccountId} = account_ID
     # 매치를 못찾을 경우
 
     res_GameID = requests.get(url=url_GameID, headers=headers)
@@ -107,7 +111,7 @@ def search():
         myid_num = 0
         # blue, red 플레이어 이름
         for i in range(0, 10):
-            if accountid == game_5[i].get('player').get('accountId'):
+            if account_id == game_5[i].get('player').get('accountId'):
                 myid_num = i
             if i < 5:
                 Game_DATA['b_player'] += [game_5[i].get('player').get('summonerName')]
@@ -133,11 +137,11 @@ def search():
             if int(mychamp) == int(value['key']):
                 champname.append(value['name'])
 
-    pp(Game_DATA)
+    pp(Game_DATAs)
     print(champname)
 
 
-    return render_template('search.html', sum_name=sum_name, results=results, length=length)
+    return render_template('search.html', sum_name=sum_name, results=results, length=length, champname=champname, Game_DATAs=Game_DATAs, zip=zip)
 
 
 if __name__ == '__main__':
