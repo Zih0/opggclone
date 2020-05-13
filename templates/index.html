@@ -1,29 +1,34 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <head>
-    <title>롤 전적 검색기</title>
-     <link rel="stylesheet" href="/static/css/style.css" type="text/css">
+  <title>롤 전적 검색기</title>
+  <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
 </head>
 <body>
-
-    <form action="/search">
-        <div class="search">
-		<div class="search-screen">
-			<div class="app-title">
-				<h1>검색</h1>
-			</div>
-
-			<div class="search-form">
-				<div class="control-group">
-				<input type="text" class="search-field" value="" placeholder="소환사이름" name="name">
-				<label class="search-field-icon" for="sum-name"></label>
-				</div>
-                <input type="submit" value="검색" class="btn" >
-			    <br>
-			</div>
-		</div>
-	</div>
-    </form>
+  <form action="/search">
 
 
+    <div class="search">
+      <div class="search-screen">
+        <div class="app-title">
+          <h1>검색</h1>
+        </div>
+
+        <div class="search-form">
+          <div class="control-group">
+            <input
+              type="text"
+              class="search-field"
+              value=""
+              placeholder="소환사이름"
+              name="name"
+            />
+            <label class="search-field-icon" for="sum-name"></label>
+          </div>
+          <input type="submit" value="검색" class="btn" />
+          <br />
+        </div>
+      </div>
+    </div>
+  </form>
 </body>

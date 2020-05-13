@@ -49,6 +49,7 @@ def search():
     results = []
     for league_dict in league_dicts:
         results.append(get_league_info(league_dict))
+    print(results)
     length = len(results)
 
     return render_template('search.html', sum_name=sum_name, results=results, length=length)

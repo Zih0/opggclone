@@ -1,25 +1,31 @@
 <!-- search.html -->
 <!DOCTYPE html>
 <head>
-    <title>전적검색결과</title>
+  <title>전적검색결과</title>
+
 </head>
 <body>
-    <p>
+  <div class="left">
+    <div class="leftBox">
+      <p>
         {{sum_name}}님의 전적검색결과
-    </p>
-    {% if length != 0 %}
-        {% for result in results %}
-            <div> {{result[0]}} </div>
-            <div> {{result[1]}} {{result[2]}} 리그</div>
-            <div> {{result[-1]}} LP </div>
-            <div> {{result[3]}} 승 {{result[4]}} 패</div>
-            <div> {{result[5]}}</div>
-            <br>
-        {% endfor %}
-    {% else %}
-        <div>아직 리그가 없습니다. 분발하세요!</div>
-    {% endif %}
-    <form action = '/'>
-        다시 검색하기 <input type="submit" value="Submit"/>
-    </form>
+      </p>
+      {% if length != 0 %} {% for result in results %}
+      <div>{{result[1]}} {{result[2]}}</div>
+      <div>{{result[-1]}} LP</div>
+      <div>{{result[3]}} 승 {{result[4]}} 패</div>
+      <div>{{result[5]}}</div>
+      <br />
+      {% endfor %} {% else %}
+      <div>아직 리그가 없습니다. 분발하세요!</div>
+      {% endif %}
+
+      <form action="/">
+        <div class="toindex">
+          <div class="research"><a>다시 검색하기</a></div>
+          <input type="submit" value="돌아가기" class="btn" />
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
