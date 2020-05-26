@@ -12,6 +12,12 @@ body {
   padding: 100px;
 }
 
+.title {
+  color: #fff;
+  font-size: 30px;
+  text-align: center;
+}
+
 .search {
   margin: 20px auto;
   width: 300px;
@@ -21,7 +27,6 @@ body {
   padding: 20px;
   border-radius: 5px;
 }
-
 
 .app-title {
   text-align: center;

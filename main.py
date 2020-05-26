@@ -6,7 +6,7 @@ from pprint import pprint as pp
 
 app = Flask(__name__)
 
-apikey = 'RGAPI-7aa28785-b55a-470b-9504-6b03b12aa5fb'
+apikey = 'RGAPI-0c508e48-d037-4714-ae9f-ad64707d6572'
 print("api_key\n", apikey)
 
 
@@ -118,6 +118,10 @@ def search():
             else:
                 Game_DATA['r_player'] += [game_5[i].get('player').get('summonerName')]
 
+
+
+
+
         # 개인 통계
         participants = res_GameData.json()['participants'][myid_num]
         champID.append(participants['championId'])
@@ -141,7 +145,7 @@ def search():
     print(champname)
 
 
-    return render_template('search.html', sum_name=sum_name, results=results, length=length, champname=champname, Game_DATAs=Game_DATAs, zip=zip)
+    return render_template('search.html', sum_name=sum_name, results=results, length=length,champname=champname, Game_DATAs=Game_DATAs, zip=zip)
 
 
 if __name__ == '__main__':
