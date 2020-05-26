@@ -2,10 +2,37 @@
 <!DOCTYPE html>
 <head>
   <link rel="stylesheet" href="/static/css/search.css" type="text/css" />
-
+<link rel="stylesheet" href="/static/css/reset.css" type="text/css" />
   <title>전적검색결과</title>
 </head>
 <body>
+
+<header class="menu">
+    <div class="home">
+        <div class="homebtn" ><a href="/">BSGgg</a></div>
+    </div>
+    <div class="menuSearch">
+        <form action="/search">
+        <div class="search-form">
+          <div class="control-group">
+            <input
+              type="text"
+              class="search-field"
+              value=""
+              placeholder="소환사이름"
+              name="name"
+            />
+            <label class="search-field-icon" for="sum-name"></label>
+          </div>
+          <input type="submit" value="검색" class="btn" />
+          <br />
+        </div>
+        </form>
+    </div>
+</header>
+
+
+
   <div class="left">
     <div class="leftBox Box">
       <span>
@@ -52,9 +79,7 @@
       {% for Game_DATA in Game_DATAs %}
       <tr>
         <td>
-          {{ Game_DATA['game_time'] // 60 }}분 게임 {{
-          Game_DATA['stats']['kills'] }}/{{ Game_DATA['stats']['deaths'] }}/{{
-          Game_DATA['stats']['assists'] }}<br />
+          {{ Game_DATA['game_time'] // 60 }}분 게임 <br />
             {% if Game_DATA['stats']['win'] == True %}
                 <span>승리</span>
             {% else %} <span>패배</span>
@@ -97,28 +122,16 @@
         </td>
 
         <td>
+          {{
+          Game_DATA['stats']['kills'] }}/{{ Game_DATA['stats']['deaths'] }}/{{
+          Game_DATA['stats']['assists'] }}
+          <br />
+            <div class="progressbar">
+                <progress value= "{{ Game_DATA['stats']['totalDamageDealtToChampions']}}" max="80000" ></progress>
+            </div>
           <span class="badge badge-info"
-            >총 데미지 : {{ Game_DATA['stats']['totalDamageDealt'] }} </span
-          ><br />
-          <span class="badge badge-info"
-            >AP 데미지 : {{ Game_DATA['stats']['magicDamageDealtToChampions'] }} </span
-          ><br />
-          <span class="badge badge-info"
-            >AD 데미지 : {{ Game_DATA['stats']['physicalDamageDealtToChampions']
+            > 데미지 : {{ Game_DATA['stats']['totalDamageDealtToChampions']
             }}</span
-          >
-          <br />
-          <span class="badge badge-info"
-            >챔피언 : {{ Game_DATA['stats']['totalDamageDealtToChampions']
-            }}</span
-          >
-          <br />
-          <span class="badge badge-info"
-            >받은 피해 : {{ Game_DATA['stats']['totalDamageTaken'] }}</span
-          >
-          <br />
-          <span class="badge badge-info"
-            >회복 : {{ Game_DATA['stats']['totalHeal'] }}</span
           >
         </td>
         <td>
@@ -132,7 +145,7 @@
             >바론 처치: {{Game_DATA['b_baronKills']}}</span
           ><br />
           <span class="badge badge-primary badge-pill"
-            >전령 처치: {{Game_DATA['b_riftHeraldKills']}}</span
+            >용 처치: {{Game_DATA['b_dragonKills']}}</span
           >
         </td>
         <td>
@@ -146,7 +159,7 @@
             >바론 처치 : {{Game_DATA['r_baronKills']}}</span
           ><br />
           <span class="badge badge-danger badge-pill"
-            >전령 처치 : {{Game_DATA['r_riftHeraldKills']}}</span
+            >용 처치 : {{Game_DATA['r_dragonKills']}}</span
           >
         </td>
         <td>

@@ -100,11 +100,13 @@ def search():
         Game_DATA['b_inhibitorKills'] = blue['inhibitorKills']  # 억제기
         Game_DATA['b_baronKills'] = blue['baronKills']  # 바론
         Game_DATA['b_riftHeraldKills'] = blue['riftHeraldKills']  # 전령
+        Game_DATA['b_dragonKills'] = blue['dragonKills'] # 용
 
         Game_DATA['r_towerKills'] = red['towerKills']  # 포탑
         Game_DATA['r_inhibitorKills'] = red['inhibitorKills']  # 억제기
         Game_DATA['r_baronKills'] = red['baronKills']  # 바론
         Game_DATA['r_riftHeraldKills'] = red['riftHeraldKills']  # 전령
+        Game_DATA['r_dragonKills'] = red['dragonKills']  # 용
 
         # 최근 5회 데이터
         game_5 = res_GameData.json()['participantIdentities']

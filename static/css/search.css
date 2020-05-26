@@ -9,9 +9,26 @@
 body {
   font-family: Arial;
   background: #3498db;
-  padding: 100px;
-
 }
+
+.menu{
+  height: 50px;
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  margin-bottom: 40px;
+}
+.homebtn {
+  padding-left: 10px;
+  width: 50px;
+  text-align: center;
+}
+a {
+  text-decoration:none;
+}
+
+
 
 .left {
   width: 185px;
@@ -28,6 +45,26 @@ body {
   box-shadow: 0 1px #dcdfdf;
   background: #f2f2f2;
   border-radius: 2px;
+}
+
+progress[value] {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+   appearance: none;
+  height: 15px;
+  padding: 4px;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress[value]::-webkit-progress-value {
+  background-color : #3498db;
+  border-radius: 0px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
 }
 
 .name {
