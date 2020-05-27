@@ -6,7 +6,7 @@ from pprint import pprint as pp
 
 app = Flask(__name__)
 
-apikey = 'RGAPI-c1e3dd3e-9bf7-4fb3-9868-b42baeb941b9'
+apikey = 'RGAPI-526e0d18-9d1d-4b2d-bf5a-833665ba684c'
 print("api_key\n", apikey)
 
 
@@ -63,7 +63,7 @@ def search():
 
     Matches = res_GameID.json()['matches']  # gameID가 들어있는 Mathes를 가져옴
     # 매치 20개로 자르기
-    Matches = Matches[:5]
+    Matches = Matches[:20]
 
     Game_IDs = []
     for Matche in Matches:
@@ -71,13 +71,17 @@ def search():
 
     champID = []  # 챔프
     Game_DATAs = []
+    static_data_url = 'http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json'
+    champdata = requests.get(static_data_url).json()
+    champdata = champdata['data']
+    champname = []
     for Game_ID in Game_IDs:
 
         Game_DATA = {'game_time': '', 'b_win': '', 'b_towerKills': '', 'b_inhibitorKills': '', 'b_baronKills': '',
                      'b_riftHeraldKills': '',
                      'r_win': '', 'r_towerKills': '', 'r_inhibitorKills': '', 'r_baronKills': '',
                      'r_riftHeraldKills': '',
-                     'b_player': [], 'r_player': [], 'stats': ''}
+                     'b_player': [], 'r_player': [], 'stats': '', 'champ_name': ''}
 
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers=headers)
@@ -100,13 +104,11 @@ def search():
         Game_DATA['b_inhibitorKills'] = blue['inhibitorKills']  # 억제기
         Game_DATA['b_baronKills'] = blue['baronKills']  # 바론
         Game_DATA['b_riftHeraldKills'] = blue['riftHeraldKills']  # 전령
-        Game_DATA['b_dragonKills'] = blue['dragonKills'] # 용
 
         Game_DATA['r_towerKills'] = red['towerKills']  # 포탑
         Game_DATA['r_inhibitorKills'] = red['inhibitorKills']  # 억제기
         Game_DATA['r_baronKills'] = red['baronKills']  # 바론
         Game_DATA['r_riftHeraldKills'] = red['riftHeraldKills']  # 전령
-        Game_DATA['r_dragonKills'] = red['dragonKills']  # 용
 
         # 최근 5회 데이터
         game_5 = res_GameData.json()['participantIdentities']
@@ -131,17 +133,18 @@ def search():
         Game_DATA['stats'] = stats
         Game_DATAs.append(Game_DATA)
 
+        for mychamp in champID:
+            for key, value in champdata.items():
+                if int(mychamp) == int(value['key']):
+                   Game_DATA['champ_name'] = value['name']
+
+
+
 
 
 #최근 5회 챔피언
-    static_data_url = 'http://ddragon.leagueoflegends.com/cdn/9.24.2/data/ko_KR/champion.json'
-    champdata = requests.get(static_data_url).json()
-    champdata = champdata['data']
-    champname = []
-    for mychamp in champID:
-        for key, value in champdata.items():
-            if int(mychamp) == int(value['key']):
-                champname.append(value['name'])
+
+
 
     pp(Game_DATAs)
     print(champname)

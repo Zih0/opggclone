@@ -1,35 +1,38 @@
 <!-- search.html -->
 <!DOCTYPE html>
 <head>
-    <link rel="stylesheet" href="/static/css/reset.css" type="text/css" />
   <link rel="stylesheet" href="/static/css/search.css" type="text/css" />
+<link rel="stylesheet" href="/static/css/reset.css" type="text/css" />
   <title>전적검색결과</title>
 </head>
 <body>
 
-<header id="header">
-    <div class="inner">
-        <div class="homeBtn" ><a href="/">
-            <img src="/static/img/logo.png" alt="bsggg" width="65" height="20">
-        </a></div>
-
-    <div class="searchContainer">
+<header class="menu">
+    <div class="home">
+        <div class="homebtn" ><a href="/">BSGgg</a></div>
+    </div>
+    <div class="menuSearch">
         <form action="/search">
+        <div class="search-form">
+          <div class="control-group">
             <input
               type="text"
-              class="searchBox"
+              class="search-field"
               value=""
               placeholder="소환사이름"
               name="name"
             />
-            <input type="submit" class="btn" value="검색">
-        </form>
+            <label class="search-field-icon" for="sum-name"></label>
+          </div>
+          <input type="submit" value="검색" class="btn" />
+          <br />
         </div>
+        </form>
     </div>
 </header>
 
-<section class="wrap">
-<div class="inner">
+
+<div class="wrap">
   <div class="left">
     <div class="leftBox Box">
       <span>
@@ -53,7 +56,14 @@
       <div>아직 리그가 없습니다. 분발하세요!</div>
       {% endif %}
     </div>
+    <div class="most_champion Box">
+        <a>
+            most champion
+        </a>
+
+    </div>
   </div>
+
 
   <div class="content">
   <div class="contentBox Box">
@@ -86,6 +96,12 @@
           <span class="badge badge-info"
             >cs : {{ Game_DATA['stats']['totalMinionsKilled'] }} </span
           ><br />
+            <img
+            src="http://ddragon.leagueoflegends.com/cdn/10.10.4/img/champion/{{ Game_DATA['champ_name']}}.png"
+            width="50"
+            class="img-responsive center-block"
+            alt="Sample post image"
+          />
         </td>
         <td>
           <img
@@ -177,5 +193,4 @@
   </div>
   </div>
 </div>
-</section>
 </body>
