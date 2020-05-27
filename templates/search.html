@@ -7,30 +7,26 @@
 </head>
 <body>
 
-<header class="menu">
-    <div class="home">
-        <div class="homebtn" ><a href="/">BSGgg</a></div>
-    </div>
-    <div class="menuSearch">
+<header id="header">
+    <div class="inner">
+        <div class="homeBtn" ><a href="/">
+            <img src="/static/img/logo.png" alt="bsggg" width="65" height="20">
+        </a></div>
+
+    <div class="searchContainer">
         <form action="/search">
-        <div class="search-form">
-          <div class="control-group">
             <input
               type="text"
-              class="search-field"
+              class="searchBox"
               value=""
               placeholder="소환사이름"
               name="name"
             />
-            <label class="search-field-icon" for="sum-name"></label>
-          </div>
-          <input type="submit" value="검색" class="btn" />
-          <br />
-        </div>
+            <input type="submit" class="btn" value="검색">
         </form>
+        </div>
     </div>
 </header>
-
 
 <div class="wrap">
   <div class="left">
