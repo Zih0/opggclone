@@ -152,6 +152,8 @@ progress[value]::-webkit-progress-value {
   width :1100px;
 }
 
+
+
 table {
   width:1040px;
   padding: 10px;
@@ -163,3 +165,4 @@ table td{
   padding-bottom: 10px;
   text-align :center;
 }
+

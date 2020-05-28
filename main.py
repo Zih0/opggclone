@@ -3,10 +3,12 @@ from flask import Flask, render_template, request
 import os
 import requests
 from pprint import pprint as pp
+import operator
+import re
 
 app = Flask(__name__)
 
-apikey = 'RGAPI-526e0d18-9d1d-4b2d-bf5a-833665ba684c'
+apikey = 'RGAPI-87654d06-cd0c-4a29-b609-720eb116a0f2'
 print("api_key\n", apikey)
 
 
@@ -70,18 +72,27 @@ def search():
         Game_IDs.append(Matche['gameId'])
 
     champID = []  # 챔프
+    spell1ID =[]
+    spell2ID =[]
+
     Game_DATAs = []
-    static_data_url = 'http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json'
-    champdata = requests.get(static_data_url).json()
+
+    static_champdata_url = 'http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json'
+    static_spelldata_url = 'http://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/summoner.json'
+
+    champdata = requests.get(static_champdata_url).json()
     champdata = champdata['data']
-    champname = []
+
+    spelldata = requests.get(static_spelldata_url).json()
+    spelldata = spelldata['data']
+
     for Game_ID in Game_IDs:
 
         Game_DATA = {'game_time': '', 'b_win': '', 'b_towerKills': '', 'b_inhibitorKills': '', 'b_baronKills': '',
                      'b_riftHeraldKills': '',
                      'r_win': '', 'r_towerKills': '', 'r_inhibitorKills': '', 'r_baronKills': '',
                      'r_riftHeraldKills': '',
-                     'b_player': [], 'r_player': [], 'stats': '', 'champ_name': ''}
+                     'b_player': [], 'r_player': [], 'stats': '', 'champ_name': '' , 'spell1': '', 'spell2': ''}
 
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers=headers)
@@ -124,11 +135,13 @@ def search():
 
 
 
-
+        champname = []
 
         # 개인 통계
         participants = res_GameData.json()['participants'][myid_num]
         champID.append(participants['championId'])
+        spell1ID.append(participants['spell1Id'])
+        spell2ID.append(participants['spell2Id'])
         stats = participants['stats']
         Game_DATA['stats'] = stats
         Game_DATAs.append(Game_DATA)
@@ -136,21 +149,34 @@ def search():
         for mychamp in champID:
             for key, value in champdata.items():
                 if int(mychamp) == int(value['key']):
-                   Game_DATA['champ_name'] = value['name']
+                   Game_DATA['champ_name'] = value['id']
+                   champname.append(value['id'])
+
+        for spell1 in spell1ID:
+            for key, value in spelldata.items():
+                if int(spell1) == int(value['key']):
+                   Game_DATA['spell1'] = value['id']
+
+        for spell2 in spell2ID:
+            for key, value in spelldata.items():
+                if int(spell2) == int(value['key']):
+                   Game_DATA['spell2'] = value['id']
 
 
+    count = {}
+
+    for i in champname:
+        try:
+            count[i] += 1
+        except:
+            count[i] = 1
+
+    print(count)
+
+    count = sorted(count.items(), key=operator.itemgetter(1), reverse=True)
 
 
-
-#최근 5회 챔피언
-
-
-
-    pp(Game_DATAs)
-    print(champname)
-
-
-    return render_template('search.html', sum_name=sum_name, results=results, length=length,champname=champname, Game_DATAs=Game_DATAs, zip=zip)
+    return render_template('search.html', sum_name=sum_name, results=results, length=length, Game_DATAs=Game_DATAs, zip=zip)
 
 
 if __name__ == '__main__':

@@ -77,15 +77,16 @@
         <th scope="col">레드 팀</th>
       </tr>
     </thead>
-    <tbody>
-      {% for Game_DATA in Game_DATAs %}
+
+
+
+ {% for Game_DATA in Game_DATAs %}
+  {% if Game_DATA['stats']['win'] == True %}
+    <tbody class="win" style="background: #A3CFEC">
       <tr>
         <td>
           {{ Game_DATA['game_time'] // 60 }}분 게임 <br />
-            {% if Game_DATA['stats']['win'] == True %}
                 <span>승리</span>
-            {% else %} <span>패배</span>
-            {%  endif %}
         </td>
         <td>
           Lv : {{ Game_DATA['stats']['champLevel'] }}<br />
@@ -94,24 +95,41 @@
           ><br />
             <img
             src="http://ddragon.leagueoflegends.com/cdn/10.10.4/img/champion/{{ Game_DATA['champ_name']}}.png"
+
             width="50"
             class="img-responsive center-block"
             alt="Sample post image"
           />
         </td>
         <td>
-          <img
+            <div>
+          <img class="rune1"
             src="https://static.u.gg/assets/lol/runes/{{ Game_DATA['stats']['perkPrimaryStyle'] }}.png"
-            width="50"
-            class="img-responsive center-block"
-            alt="Sample post image"
-          /><br />
-          <img
-            src="https://static.u.gg/assets/lol/runes/{{ Game_DATA['stats']['perkSubStyle'] }}.png"
-            width="50"
+            width="25"
             class="img-responsive center-block"
             alt="Sample post image"
           />
+          <img class="rune2"
+            src="https://static.u.gg/assets/lol/runes/{{ Game_DATA['stats']['perkSubStyle'] }}.png"
+            width="25"
+            class="img-responsive center-block"
+            alt="Sample post image"
+          />
+                </div>
+            <div>
+             <img class="spell1"
+            src="http://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/spell/{{ Game_DATA['spell1'] }}.png"
+            width="25"
+            class="img-responsive center-block"
+            alt="Sample post image"
+          />
+             <img class="spell2"
+            src="http://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/spell/{{ Game_DATA['spell2'] }}.png"
+            width="25"
+            class="img-responsive center-block"
+            alt="Sample post image"
+          />
+                </div>
         </td>
 
         <td>
@@ -183,8 +201,138 @@
           {% endfor %}
         </td>
       </tr>
-      {% endfor %}
     </tbody>
+
+  {% elif Game_DATA['stats']['win'] == False %}
+
+      <tbody class="lose" style="background: #E2B6B3">
+      <tr>
+        <td>
+          {{ Game_DATA['game_time'] // 60 }}분 게임 <br />
+                <span class="win">패배</span>
+        </td>
+        <td>
+          Lv : {{ Game_DATA['stats']['champLevel'] }}<br />
+          <span class="badge badge-info"
+            >cs : {{ Game_DATA['stats']['totalMinionsKilled'] }} </span
+          ><br />
+            <img
+            src="http://ddragon.leagueoflegends.com/cdn/10.10.4/img/champion/{{ Game_DATA['champ_name']}}.png"
+
+            width="50"
+            class="img-responsive center-block"
+            alt="Sample post image"
+          />
+        </td>
+        <td>
+                <div>
+          <img class="rune1"
+            src="https://static.u.gg/assets/lol/runes/{{ Game_DATA['stats']['perkPrimaryStyle'] }}.png"
+            width="25"
+            class="img-responsive center-block"
+            alt="Sample post image"
+          />
+          <img class="rune2"
+            src="https://static.u.gg/assets/lol/runes/{{ Game_DATA['stats']['perkSubStyle'] }}.png"
+            width="25"
+            class="img-responsive center-block"
+            alt="Sample post image"
+          />
+                </div>
+            <div>
+             <img class="spell1"
+            src="http://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/spell/{{ Game_DATA['spell1'] }}.png"
+            width="25"
+            class="img-responsive center-block"
+            alt="Sample post image"
+          />
+             <img class="spell2"
+            src="http://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/spell/{{ Game_DATA['spell2'] }}.png"
+            width="25"
+            class="img-responsive center-block"
+            alt="Sample post image"
+          />
+                </div>
+
+        </td>
+
+        <td>
+          <span class="badge badge-info"
+            >획득골드 : {{ Game_DATA['stats']['goldEarned'] }} </span
+          ><br />
+          {% if Game_DATA['game_time'] // 60 <=
+          Game_DATA['stats']['visionScore'] %}
+          <span class="badge badge-primary">시야점수 좋음</span><br />
+          {% else %}
+          <span class="badge badge-danger">시야점수 나쁨</span><br />
+          {% endif %}
+          <span class="badge badge-info"
+            >시야점수 : {{ Game_DATA['stats']['visionScore'] }}</span
+          >
+        </td>
+
+        <td>
+          {{
+          Game_DATA['stats']['kills'] }}/{{ Game_DATA['stats']['deaths'] }}/{{
+          Game_DATA['stats']['assists'] }}
+          <br />
+            <div class="progressbar">
+                <progress value= "{{ Game_DATA['stats']['totalDamageDealtToChampions']}}" max="80000" ></progress>
+            </div>
+          <span class="badge badge-info"
+            > 데미지 : {{ Game_DATA['stats']['totalDamageDealtToChampions']
+            }}</span
+          >
+        </td>
+        <td>
+          <span class="badge badge-primary badge-pill"
+            >포탑 파괴: {{Game_DATA['b_towerKills']}}</span
+          ><br />
+          <span class="badge badge-primary badge-pill"
+            >억제기 파괴: {{Game_DATA['b_inhibitorKills']}}</span
+          ><br />
+          <span class="badge badge-primary badge-pill"
+            >바론 처치: {{Game_DATA['b_baronKills']}}</span
+          ><br />
+          <span class="badge badge-primary badge-pill"
+            >용 처치: {{Game_DATA['b_dragonKills']}}</span
+          >
+        </td>
+        <td>
+          <span class="badge badge-danger badge-pill"
+            >포탑 파괴 : {{Game_DATA['r_towerKills']}}</span
+          ><br />
+          <span class="badge badge-danger badge-pill"
+            >억제기 파괴 : {{Game_DATA['r_inhibitorKills']}}</span
+          ><br />
+          <span class="badge badge-danger badge-pill"
+            >바론 처치 : {{Game_DATA['r_baronKills']}}</span
+          ><br />
+          <span class="badge badge-danger badge-pill"
+            >용 처치 : {{Game_DATA['r_dragonKills']}}</span
+          >
+        </td>
+
+        <td>
+          {% for j in range(5) %}
+          <span class="badge badge-light">{{ Game_DATA['b_player'][j] }}</span
+          ><br />
+          {% endfor %}
+        </td>
+
+        <td>
+          {% for j in range(5) %}
+          <span class="badge badge-light">{{ Game_DATA['r_player'][j] }}</span
+          ><br />
+          {% endfor %}
+
+        </td>
+      </tr>
+
+
+    </tbody>
+  {%  endif %}
+{% endfor %}
   </table>
   </div>
   </div>
