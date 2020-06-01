@@ -53,11 +53,36 @@
       {% endif %}
     </div>
     <div class="most_champion Box">
-        <a>
-            most champion
-        </a>
-
+        <h1>최근 20게임 kda {{ kda }}</h1>
+         <div class="most1">
+          <img
+            src="http://ddragon.leagueoflegends.com/cdn/10.10.4/img/champion/{{ mostchamp[0] }}.png"
+            width="100"
+            class="most1_img"
+            alt="Sample post image"
+          />
+            <span> {{ mostcount[0] }}</span>
+      </div>
+      <div class="most2">
+          <img
+            src="http://ddragon.leagueoflegends.com/cdn/10.10.4/img/champion/{{ mostchamp[1] }}.png"
+            width="100"
+            class="most2_img"
+            alt="Sample post image"
+          />
+          <span> {{ mostcount[1] }}</span>
+      </div>
+      <div class="most3">
+          <img
+            src="http://ddragon.leagueoflegends.com/cdn/10.10.4/img/champion/{{ mostchamp[2] }}.png"
+            width="100"
+            class="most3_img"
+            alt="Sample post image"
+          />
+            <span> {{ mostcount[2] }}</span>
+      </div>
     </div>
+
   </div>
 
 
@@ -190,14 +215,28 @@
         </td>
         <td>
           {% for j in range(5) %}
+              <div class="teamname" style="display: flex;">
+              <div class="teamChamp" ><img src="http://ddragon.leagueoflegends.com/cdn/10.10.4/img/champion/{{ Game_DATA['all_champ_name'][j] }}.png"
+            width="15"
+            class="champion"
+            alt="Sample post image"></div>
           <span class="badge badge-light">{{ Game_DATA['b_player'][j] }}</span
-          ><br />
+          ></div>
+              <br />
           {% endfor %}
         </td>
+
         <td>
           {% for j in range(5) %}
+              <div class="teamname" style="display: flex;">
+              <div class="teamChamp1">
+                  <img src="http://ddragon.leagueoflegends.com/cdn/10.10.4/img/champion/{{ Game_DATA['all_champ_name'][j+5] }}.png"
+            width="15"
+            class="champion"
+            alt="Sample post image"/>
+              </div>
           <span class="badge badge-light">{{ Game_DATA['r_player'][j] }}</span
-          ><br />
+          ></div><br />
           {% endfor %}
         </td>
       </tr>
@@ -315,15 +354,28 @@
 
         <td>
           {% for j in range(5) %}
+              <div class="teamname" style="display: flex;">
+              <div class="teamChamp" ><img src="http://ddragon.leagueoflegends.com/cdn/10.10.4/img/champion/{{ Game_DATA['all_champ_name'][j] }}.png"
+            width="15"
+            class="champion"
+            alt="Sample post image"></div>
           <span class="badge badge-light">{{ Game_DATA['b_player'][j] }}</span
-          ><br />
+          ></div>
+              <br />
           {% endfor %}
         </td>
 
         <td>
           {% for j in range(5) %}
+              <div class="teamname" style="display: flex;">
+              <div class="teamChamp1">
+                  <img src="http://ddragon.leagueoflegends.com/cdn/10.10.4/img/champion/{{ Game_DATA['all_champ_name'][j+5] }}.png"
+            width="15"
+            class="champion"
+            alt="Sample post image"/>
+              </div>
           <span class="badge badge-light">{{ Game_DATA['r_player'][j] }}</span
-          ><br />
+          ></div><br />
           {% endfor %}
 
         </td>

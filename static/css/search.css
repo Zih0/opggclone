@@ -69,8 +69,10 @@ body {
 
 
 .wrap{
-  display: block;
   text-align: center;
+    margin-top: 100px;
+    margin-left : 100px;
+
 }
 
 .left {
@@ -78,6 +80,7 @@ body {
   font-size: 12px;
   margin-bottom : 30px;
   display: flex;
+
 }
 
 .leftBox {
@@ -87,6 +90,9 @@ body {
 .most_champion{
   width:500px;
   padding :5px 10px;
+    display: flex;
+    text-align: center;
+    font-size:20px;
 }
 
 

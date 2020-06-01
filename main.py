@@ -8,7 +8,7 @@ import re
 
 app = Flask(__name__)
 
-apikey = 'RGAPI-87654d06-cd0c-4a29-b609-720eb116a0f2'
+apikey = 'RGAPI-981599b9-27da-4639-a21f-a2be168b030b'
 print("api_key\n", apikey)
 
 
@@ -27,7 +27,8 @@ def search():
     "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
     "Origin": "https://developer.riotgames.com",
     "X-Riot-Token": apikey
-}
+    }
+    count = 1
     res = requests.get(url=url, headers=headers)
     account_id = res.json()['accountId']
     encrypted_id = res.json()['id']
@@ -54,8 +55,9 @@ def search():
     print(results)
     length = len(results)
 
-
-
+    kills = 0
+    deaths = 0
+    assists = 0
 
     url_GameID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}?queue=420".format(
         account_id)  # {encryptedAccountId} = account_ID
@@ -77,8 +79,8 @@ def search():
 
     Game_DATAs = []
 
-    static_champdata_url = 'http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json'
-    static_spelldata_url = 'http://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/summoner.json'
+    static_champdata_url = 'http://ddragon.leagueoflegends.com/cdn/10.11.1/data/en_US/champion.json'
+    static_spelldata_url = 'http://ddragon.leagueoflegends.com/cdn/10.11.1/data/en_US/summoner.json'
 
     champdata = requests.get(static_champdata_url).json()
     champdata = champdata['data']
@@ -92,7 +94,7 @@ def search():
                      'b_riftHeraldKills': '',
                      'r_win': '', 'r_towerKills': '', 'r_inhibitorKills': '', 'r_baronKills': '',
                      'r_riftHeraldKills': '',
-                     'b_player': [], 'r_player': [], 'stats': '', 'champ_name': '' , 'spell1': '', 'spell2': ''}
+                     'b_player': [], 'r_player': [], 'stats': '','all_champ_name' : [] ,'champ_name': '' , 'spell1': '', 'spell2': ''}
 
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers=headers)
@@ -122,6 +124,19 @@ def search():
         Game_DATA['r_riftHeraldKills'] = red['riftHeraldKills']  # 전령
 
         # 최근 5회 데이터
+        participants = res_GameData.json()['participants']
+        allchamp = []
+        allchampname = []
+        for participant in participants:
+            allchamp.append(participant['championId'])
+
+
+        for champid in allchamp:
+            for key, value in champdata.items():
+                if int(champid) == int(value['key']):
+                   Game_DATA['all_champ_name'].append(value['id'])
+
+
         game_5 = res_GameData.json()['participantIdentities']
         myid_num = 0
         # blue, red 플레이어 이름
@@ -138,11 +153,24 @@ def search():
         champname = []
 
         # 개인 통계
+        # kda = []
+        # mostchampkda1 = {"kill": 0 , "death": 0 , "assist": 0 }
+        # mostchampkda2 = {"kill": 0, "death": 0, "assist": 0}
+        # mostchampkda3 = {"kill": 0, "death": 0, "assist": 0}
+        # kda.append(mostchampkda1)
+        # kda.append(mostchampkda2)
+        # kda.append(mostchampkda3)
+
+        # print(kda)
         participants = res_GameData.json()['participants'][myid_num]
         champID.append(participants['championId'])
         spell1ID.append(participants['spell1Id'])
         spell2ID.append(participants['spell2Id'])
         stats = participants['stats']
+
+        kills += stats['kills']
+        deaths += stats['deaths']
+        assists += stats['assists']
         Game_DATA['stats'] = stats
         Game_DATAs.append(Game_DATA)
 
@@ -171,12 +199,25 @@ def search():
         except:
             count[i] = 1
 
+
+
+    kda = (kills+assists)/deaths
+    kda = round(kda,2)
+    print(kda)
+
+
     print(count)
+    mostchamp =[]
+    mostcount = []
+    for key, value in sorted(count.items(), key=operator.itemgetter(1), reverse=True):
+        mostchamp.append(key)
+        mostcount.append(value)
 
-    count = sorted(count.items(), key=operator.itemgetter(1), reverse=True)
+    mostchamp = mostchamp[:3]
+    mostcount = mostcount[:3]
 
 
-    return render_template('search.html', sum_name=sum_name, results=results, length=length, Game_DATAs=Game_DATAs, zip=zip)
+    return render_template('search.html', sum_name=sum_name, results=results, length=length, Game_DATAs=Game_DATAs,kda=kda, mostchamp=mostchamp, mostcount=mostcount, zip=zip)
 
 
 if __name__ == '__main__':
