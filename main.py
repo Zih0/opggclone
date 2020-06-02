@@ -94,7 +94,7 @@ def search():
                      'b_riftHeraldKills': '',
                      'r_win': '', 'r_towerKills': '', 'r_inhibitorKills': '', 'r_baronKills': '',
                      'r_riftHeraldKills': '',
-                     'b_player': [], 'r_player': [], 'stats': '','all_champ_name' : [] ,'champ_name': '' , 'spell1': '', 'spell2': ''}
+                     'b_player': [], 'r_player': [], 'stats': '', 'kda': '' ,'all_champ_name' : [] ,'champ_name': '' , 'spell1': '', 'spell2': ''}
 
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers=headers)
@@ -151,27 +151,24 @@ def search():
 
 
         champname = []
-
-        # 개인 통계
-        # kda = []
-        # mostchampkda1 = {"kill": 0 , "death": 0 , "assist": 0 }
-        # mostchampkda2 = {"kill": 0, "death": 0, "assist": 0}
-        # mostchampkda3 = {"kill": 0, "death": 0, "assist": 0}
-        # kda.append(mostchampkda1)
-        # kda.append(mostchampkda2)
-        # kda.append(mostchampkda3)
-
-        # print(kda)
         participants = res_GameData.json()['participants'][myid_num]
         champID.append(participants['championId'])
         spell1ID.append(participants['spell1Id'])
         spell2ID.append(participants['spell2Id'])
         stats = participants['stats']
 
+
+
         kills += stats['kills']
         deaths += stats['deaths']
         assists += stats['assists']
         Game_DATA['stats'] = stats
+        if stats['deaths'] == 0:
+            Game_DATA['kda'] = 'Perfect'
+        else:
+            Game_DATA['kda'] = round((stats['kills']+stats['assists'])/stats['deaths'],2)
+
+
         Game_DATAs.append(Game_DATA)
 
         for mychamp in champID:
